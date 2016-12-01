@@ -6,19 +6,17 @@ import spock.lang.Unroll
 /**
  * Created by 0x0961h on 01.12.16.
  */
-class DaySolverSpec extends Specification {
+class DaySolverAdvancedSpec extends Specification {
     @Unroll
     def solveTest() {
         expect:
 
-            DaySolver.solve(input) == distance
+            DaySolverAdvanced.solve(input) == distance
 
         where:
 
             input            || distance
 
-            "R2, L3"         || 5
-            "R2, R2, R2"     || 2
-            "R5, L5, R5, R3" || 12
+            "R8, R4, R4, R8" || 4
     }
 }
