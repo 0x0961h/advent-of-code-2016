@@ -1,5 +1,7 @@
 package x0961h.aoc16.day01;
 
+import x0961h.aoc16.utils.Point;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,17 +22,16 @@ public class DaySolverAdvanced {
     private static final int SOUTH = 2;
     private static final int EAST = 3;
 
-    private static Set<Point> visitedPoints;
-
     public static int solve(String input) {
-        visitedPoints = new HashSet<>();
+        Set<Point> visitedPoints = new HashSet<>();
 
         String[] commands = input.split(", ");
 
         int direction = NORTH;
         Point p = new Point();
 
-        main_cycle: for (String command : commands) {
+        main_cycle:
+        for (String command : commands) {
             char rotCmd = command.charAt(0);
             if (rotCmd == 'L') {
                 if (++direction > EAST) direction = NORTH;
@@ -71,51 +72,5 @@ public class DaySolverAdvanced {
 
     private static int manhattan(int x0, int y0, int x1, int y1) {
         return Math.abs(x1 - x0) + Math.abs(y1 - y0);
-    }
-
-    private static class Point {
-        public int x;
-        public int y;
-
-        public Point() {
-            this(0, 0);
-        }
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public Point cpy() {
-            return new Point(x, y);
-        }
-
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            Point point = (Point) o;
-
-            if (x != point.x) return false;
-            return y == point.y;
-
-        }
-
-        @Override
-        public int hashCode() {
-            int result = x;
-            result = 31 * result + y;
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
-        }
     }
 }
