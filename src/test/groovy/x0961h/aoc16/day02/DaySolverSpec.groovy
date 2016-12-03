@@ -15,11 +15,8 @@ class DaySolverSpec extends Specification {
 
         where:
 
-            input   || code
+            input                      || code
 
-            "ULL\n" +
-            "RRDDD\n" +
-            "LURDL\n" +
-            "UUUUD" || "1985"
+            "ULL\nRRDDD\nLURDL\nUUUUD" || "1985"
     }
 }
