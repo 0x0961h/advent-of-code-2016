@@ -6,8 +6,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -19,32 +17,12 @@ public class DaySolver {
         System.out.println("Result = " + solve(input));
     }
 
-    public static Pattern roomIdPattern = Pattern.compile("^([a-z-]+)(\\d+)\\[([a-z]+)\\]");
-
     public static long solve(String input) {
         return Arrays.stream(input.split("\n")).
                 map(RoomIdStruct::new).
                 filter(DaySolver::isReal).
                 mapToInt(s -> s.sectorId).
                 sum();
-    }
-
-    public static class RoomIdStruct {
-        public final String roomId;
-        public final String name;
-        public final int sectorId;
-        public final String checksum;
-
-        public RoomIdStruct(String roomId) {
-            this.roomId = roomId;
-            Matcher mat = roomIdPattern.matcher(roomId);
-
-            if (!mat.find()) throw new RuntimeException("Incorrect input: " + roomId);
-
-            name = mat.group(1);
-            sectorId = Integer.parseInt(mat.group(2));
-            checksum = mat.group(3);
-        }
     }
 
     public static Boolean isReal(RoomIdStruct struct) {
