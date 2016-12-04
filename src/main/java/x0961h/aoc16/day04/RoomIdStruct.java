@@ -13,6 +13,7 @@ public class RoomIdStruct {
     public final String name;
     public final int sectorId;
     public final String checksum;
+    public String realName;
 
     public RoomIdStruct(String roomId) {
         this.roomId = roomId;
