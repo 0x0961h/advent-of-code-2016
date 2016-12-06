@@ -43,7 +43,7 @@ public class DaySolver {
                     }
                 }).
                 map(e -> String.valueOf(e.getKey())).
-                collect(Collectors.joining("")).
+                collect(Collectors.joining()).
                 substring(0, 5);
 
         return calculatedChecksum.equals(struct.checksum);
