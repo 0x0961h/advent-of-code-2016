@@ -15,11 +15,14 @@ class DaySolverSpec extends Specification {
 
         where:
 
-            ipv7                   || result
+            ipv7                           || result
 
-            "abba[mnop]qrst"       || true
-            "abcd[bddb]xyyx"       || false
-            "aaaa[qwer]tyui"       || false
-            "ioxxoj[asdfgh]zxcvbn" || true
+            "abba[mnop]qrst"               || true
+            "abcd[bddb]xyyx"               || false
+            "aaaa[qwer]tyui"               || false
+            "ioxxoj[asdfgh]zxcvbn"         || true
+
+            "ioxxoj[asdfgh]zxc[azaza]vbn"  || true
+            "ioxxoj[asdfgh]zxc[axyyxa]vbn" || false
     }
 }

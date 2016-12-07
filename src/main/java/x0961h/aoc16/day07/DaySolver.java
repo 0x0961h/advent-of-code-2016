@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by 0x0961h on 06.12.16.
@@ -22,17 +20,18 @@ public class DaySolver {
                 count();
     }
 
-    private final static Pattern pat = Pattern.compile("([a-z]+)\\[([a-z]+)]([a-z]+)");
-
     public static Boolean checkTlsSupport(String ipv7) {
-        Matcher mat = pat.matcher(ipv7);
-        if (!mat.find()) throw new RuntimeException("Invalid IPv7 address: " + ipv7);
+        String[] parts = ipv7.split("[\\[\\]]");
 
-        String leftPart = mat.group(1);
-        String bracketPart = mat.group(2);
-        String rightPart = mat.group(3);
+        boolean result = false;
+        for (int i = 0; i < parts.length; i++) {
+            if (checkPartForAbba(parts[i])) {
+                if (i % 2 == 1) return false;
+                result = true;
+            }
+        }
 
-        return (checkPartForAbba(leftPart) || checkPartForAbba(rightPart)) && !checkPartForAbba(bracketPart);
+        return result;
     }
 
     private static boolean checkPartForAbba(String input) {
