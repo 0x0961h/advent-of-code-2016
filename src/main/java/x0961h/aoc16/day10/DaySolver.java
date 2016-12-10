@@ -24,6 +24,8 @@ public class DaySolver {
         int[] outputs = IntStream.range(0, oc).map(operand -> -1).toArray();
 
         while (Arrays.stream(bots).anyMatch(Bot::isActive)) iterate(bots, outputs);
+
+        System.out.println(Arrays.toString(outputs));
     }
 
     private static void iterate(Bot[] bots, int[] outputs) {
