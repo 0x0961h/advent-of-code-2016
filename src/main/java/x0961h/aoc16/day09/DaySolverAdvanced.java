@@ -3,8 +3,9 @@ package x0961h.aoc16.day09;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by 0x0961h on 09.12.16.
@@ -15,50 +16,82 @@ public class DaySolverAdvanced {
         System.out.println("Result = " + solve(input));
     }
 
-    private static Pattern pat = Pattern.compile("\\((\\d+)x(\\d+)\\)");
+    private static List<MultiplierStruct> multipliers;
 
     public static long solve(String input) {
-        simplifyInput(input, 1);
+        long length = 0;
+        multipliers = new LinkedList<>();
 
-        return -1;
-    }
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
 
-    private static String simplifyInput(String input, int baseCoef) {
-        System.out.println("===");
-        String firstInput = input;
+            if (ch == '(') {
+                String instructions = input.substring(i + 1, input.indexOf(')', i));
+                String[] spl = instructions.split("x");
+                i += instructions.length() + 1;
 
-        StringBuilder stable = new StringBuilder();
+                int blockSize = Integer.parseInt(spl[0]);
+                int repeatTimes = Integer.parseInt(spl[1]);
 
-        stable.append(input.substring(0, input.indexOf('(')));
-        input = input.substring(input.indexOf('('));
-
-        System.out.println("Stable part: " + stable);
-        System.out.println("Processing part: " + input);
-
-        Matcher mat = pat.matcher(input);
-        while (mat.find()) {
-            System.out.println("  Found: " + mat.group());
-            int blockSize = Integer.parseInt(mat.group(1));
-            int repeatTimes = Integer.parseInt(mat.group(2));
-            String checkingPart = input.substring(mat.end(), Math.min(mat.end() + blockSize, input.length()));
-            System.out.println("    " + checkingPart);
-            int partEnd = mat.end() + checkingPart.length();
-            if (checkingPart.contains("(")) {
-                System.out.println("    Increasing internal coefficients (x" + baseCoef * repeatTimes + ")...");
-                stable.append(simplifyInput(checkingPart, repeatTimes));
+                decMultipliers(instructions.length() + 2);
+                multipliers.add(new MultiplierStruct(blockSize, repeatTimes));
             } else {
-                stable.append(mat.group()).append(checkingPart);
+                Integer mlt = getMultiplier();
+                length += mlt;
+
+                decMultipliers();
             }
-            input = input.substring(partEnd);
-            mat = pat.matcher(input);
         }
 
-        stable.append(input);
+        return length;
+    }
 
-        System.out.println("Input:  " + firstInput);
-        System.out.println("Result: " + stable.toString());
-        System.out.println("===");
+    private static void decMultipliers(int i) {
+        multipliers = multipliers.stream().
+                map(m -> {
+                    m.dec(i);
+                    return m;
+                }).
+                filter(m -> !m.done()).
+                collect(Collectors.toList());
+    }
 
-        return stable.toString();
+    private static void decMultipliers() {
+        decMultipliers(1);
+    }
+
+    private static Integer getMultiplier() {
+        return multipliers.stream().
+                map(m -> m.multiplier).
+                collect(Collectors.toList()).
+                stream().
+                reduce((i, j) -> i * j).
+                orElseGet(() -> 1);
+    }
+
+    private static class MultiplierStruct {
+        final int multiplier;
+        int charsLeft;
+
+        MultiplierStruct(int charsLeft, int multiplier) {
+            this.multiplier = multiplier;
+            this.charsLeft = charsLeft;
+        }
+
+        void dec(int i) {
+            charsLeft -= i;
+            if (charsLeft < 0) throw new RuntimeException("charsLeft is negative");
+        }
+
+        boolean done() {
+            return charsLeft == 0;
+        }
+
+        @Override
+        public String toString() {
+            return "(x" + multiplier +
+                    ", " + charsLeft +
+                    ")";
+        }
     }
 }
