@@ -11,12 +11,10 @@ import java.util.Arrays;
 public class DaySolver {
     public static void main(String[] args) throws IOException {
         String input = new String(Files.readAllBytes(Paths.get("src/main/resources/day12", "data.txt")));
-        System.out.println("Result = " + Arrays.toString(solve(input)));
+        System.out.println("Result = " + Arrays.toString(solve(new Integer[]{0, 0, 0, 0}, input)));
     }
 
-    public static int[] solve(String input) {
-        int[] registers = new int[]{0, 0, 0, 0};
-
+    public static Integer[] solve(Integer[] registers, String input) {
         String[] cmds = input.split("\r?\n");
         int i = 0;
 

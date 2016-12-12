@@ -11,7 +11,7 @@ class DaySolverSpec extends Specification {
     def solveTest() {
         expect:
 
-            DaySolver.solve(input) == result
+            DaySolver.solve([0, 0, 0, 0].toArray(new int[4]), input) == result
 
         where:
 
