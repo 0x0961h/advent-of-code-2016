@@ -47,19 +47,31 @@ public class Point {
                 '}';
     }
 
-    public void up() {
+    public Point up() {
         y++;
+        return this;
     }
 
-    public void down() {
+    public Point down() {
         y--;
+        return this;
     }
 
-    public void left() {
+    public Point left() {
         x--;
+        return this;
     }
 
-    public void right() {
+    public Point right() {
         x++;
+        return this;
+    }
+
+    public int manhattan(int x1, int y1) {
+        return Math.abs(x1 - x) + Math.abs(y1 - y);
+    }
+
+    public int manhattan(Point p) {
+        return Math.abs(p.x - x) + Math.abs(p.y - y);
     }
 }
