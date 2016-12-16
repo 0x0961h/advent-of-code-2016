@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * Created by 0x0961h on 16.12.16.
  */
-public class DaySolver {
+public class DaySolverAdvanced {
     public static String SALT = "qzyelonm";
     private static Map<Integer, String> hashCache = new HashMap<>();
 
@@ -57,7 +57,15 @@ public class DaySolver {
     }
 
     private static String getHash(int index) {
-        if (!hashCache.containsKey(index)) hashCache.put(index, MD5.get(SALT + index));
+        if (!hashCache.containsKey(index)) {
+            String hash = MD5.get(SALT + index);
+            for (int i = 0; i < 2016; i++) {
+                hash = MD5.get(hash);
+            }
+
+            hashCache.put(index, hash);
+        }
+
         return hashCache.get(index);
     }
 }
