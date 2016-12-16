@@ -6,7 +6,6 @@ import java.io.IOException;
  * Created by 0x0961h on 16.12.16.
  */
 public class DaySolver {
-
     public static void main(String[] args) throws IOException {
         System.out.println("Result = " + solve(272, "01111010110010011"));
     }
